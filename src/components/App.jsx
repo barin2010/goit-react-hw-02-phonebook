@@ -15,17 +15,12 @@ class App extends Component {
     filter: '',
   };
 
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
   handleDeleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
-
-  handleSubmit = e => {
+  addContact = e => {
     e.preventDefault();
 
     const { name, number } = this.state;
@@ -34,8 +29,9 @@ class App extends Component {
       alert('Please enter both name and number.');
       return;
     }
+
     const isNameAlreadyExist = this.state.contacts.some(
-      contact => contact.name === name
+      contact => contact.name === newContact.name
     );
 
     if (isNameAlreadyExist) {
@@ -69,7 +65,7 @@ class App extends Component {
   };
 
   render() {
-    const { name, number, filter } = this.state;
+    const { filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
 
     return (
@@ -87,12 +83,7 @@ class App extends Component {
         }}
       >
         <h1>Phonebook</h1>
-        <ContactForm
-          name={name}
-          number={number}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
+        <ContactForm onSubmit={this.addContact} />
 
         <h2>Contacts</h2>
         <Filter filter={filter} handleFilterChange={this.handleFilterChange} />
