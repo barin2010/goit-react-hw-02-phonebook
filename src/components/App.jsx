@@ -20,35 +20,24 @@ class App extends Component {
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
-  addContact = e => {
-    e.preventDefault();
-
-    const { name, number } = this.state;
-
-    if (name.trim() === '' || number.trim() === '') {
-      alert('Please enter both name and number.');
-      return;
-    }
-
+  addContact = newContact => {
     const isNameAlreadyExist = this.state.contacts.some(
       contact => contact.name === newContact.name
     );
 
     if (isNameAlreadyExist) {
-      alert(`${name} is already in contacts!`);
+      alert(`${newContact.name} is already in contacts!`);
       return;
     }
 
-    const newContact = {
+    const contactToAdd = {
       id: nanoid(),
-      name,
-      number,
+      name: newContact.name,
+      number: newContact.number,
     };
 
     this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-      name: '',
-      number: '',
+      contacts: [...prevState.contacts, contactToAdd],
     }));
   };
 
